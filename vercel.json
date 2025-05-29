@@ -1,8 +1,8 @@
 {
   "version": 2,
   "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
-  "outputDirectory": "dist",
-  "framework": "vite",
+  "outputDirectory": "static",
+  "framework": null,
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/index.html" }
