@@ -10,7 +10,7 @@ npm --version
 echo "Creating static directory..."
 mkdir -p static
 
-echo "Creating static HTML file..."
+echo "Creating static HTML file with Clerk production configuration..."
 cat > static/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +18,12 @@ cat > static/index.html << 'EOF'
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mockello</title>
+  <script type="text/javascript">
+    // Clerk configuration
+    window.__clerk_frontend_api = 'https://accounts.mockello.com';
+    window.__clerk_publishable_key = 'pk_live_Y2xlcmsubW9ja2VsbG8uY29tJA';
+  </script>
+  <script crossorigin src="https://accounts.mockello.com/npm/@clerk/clerk-js@4/dist/clerk.browser.js"></script>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -69,6 +75,9 @@ cat > static/index.html << 'EOF'
       margin-top: 1rem;
       font-weight: 500;
     }
+    #auth-container {
+      margin-top: 2rem;
+    }
   </style>
 </head>
 <body>
@@ -76,10 +85,32 @@ cat > static/index.html << 'EOF'
     <div class="logo">M</div>
     <h1>Welcome to Mockello</h1>
     <p>
-      Our site is currently being deployed. Please check back in a few minutes.
+      Sign in to access your account.
     </p>
-    <a href="https://accounts.mockello.com/sign-in" class="button">Sign In</a>
+    <div id="auth-container"></div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async function() {
+      try {
+        // Initialize Clerk with production configuration
+        const clerk = window.Clerk;
+        await clerk.load({
+          publishableKey: window.__clerk_publishable_key,
+          frontendApi: window.__clerk_frontend_api
+        });
+        
+        // Mount the sign-in component
+        const signInDiv = document.getElementById('auth-container');
+        clerk.mountSignIn(signInDiv);
+      } catch (error) {
+        console.error('Error initializing Clerk:', error);
+        // Fallback to direct link if Clerk fails to load
+        const authContainer = document.getElementById('auth-container');
+        authContainer.innerHTML = '<a href="https://accounts.mockello.com/sign-in" class="button">Sign In</a>';
+      }
+    });
+  </script>
 </body>
 </html>
 EOF
