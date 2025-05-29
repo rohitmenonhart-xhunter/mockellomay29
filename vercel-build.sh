@@ -7,23 +7,30 @@ node --version
 echo "NPM version:"
 npm --version
 
-echo "Installing dependencies with force flag..."
-npm install --force
+echo "Workspace contents:"
+ls -la
 
-echo "Checking for Vite..."
-if [ ! -f "./node_modules/.bin/vite" ]; then
-  echo "Vite binary not found, installing globally..."
-  npm install -g vite
-  
-  echo "Creating directory structure if needed..."
-  mkdir -p ./node_modules/.bin
-  
-  echo "Checking global vite installation..."
-  which vite
-  
-  echo "Running build with global Vite..."
-  vite build
-else
-  echo "Running build with local Vite..."
-  ./node_modules/.bin/vite build
-fi 
+echo "Installing dependencies..."
+npm install --no-save vite@5.4.1 @vitejs/plugin-react-swc@3.5.0
+
+echo "Creating minimal vite.config.js..."
+cat > vite.config.js << 'EOF'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import path from 'path';
+
+export default defineConfig({
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  build: {
+    outDir: 'dist',
+  }
+});
+EOF
+
+echo "Running build with direct Vite command..."
+npx vite build --config vite.config.js 
