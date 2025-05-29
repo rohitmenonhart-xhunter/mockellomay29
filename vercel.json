@@ -1,7 +1,7 @@
 {
   "version": 2,
   "framework": null,
-  "buildCommand": "npm install --legacy-peer-deps && npm run build",
+  "buildCommand": "npm install --legacy-peer-deps && npx vite build",
   "outputDirectory": "dist",
   "routes": [
     { "handle": "filesystem" },
@@ -9,5 +9,8 @@
   ],
   "env": {
     "NODE_ENV": "production"
+  },
+  "engines": {
+    "node": "18.x"
   }
 }
