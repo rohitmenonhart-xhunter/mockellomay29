@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 // MongoDB connection URI (should be in environment variables in production)
-const uri = process.env.MONGODB_URI || "mongodb+srv://rohitmanon2:rohit@cluster0.ti1xneh.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const uri = process.env.MONGODB_URI || "";
 
 // Define the request body type
 interface RequestBody {
