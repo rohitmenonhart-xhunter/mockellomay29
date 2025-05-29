@@ -23,9 +23,31 @@ export default defineConfig(({ mode }) => ({
     },
   },
   build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
-        format: 'es'
+        format: 'es',
+        manualChunks: {
+          vendor: [
+            'react', 
+            'react-dom',
+            'three',
+            '@react-three/fiber',
+            '@react-three/drei'
+          ],
+          ui: [
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-alert-dialog',
+            '@radix-ui/react-aspect-ratio',
+            '@radix-ui/react-avatar',
+            '@radix-ui/react-checkbox',
+            '@radix-ui/react-collapsible',
+            '@radix-ui/react-context-menu',
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-dropdown-menu'
+          ]
+        }
       }
     }
   }

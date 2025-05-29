@@ -1,8 +1,10 @@
 {
-  "framework": "vite",
-  "buildCommand": "npm run build",
+  "version": 2,
+  "framework": false,
+  "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
   "outputDirectory": "dist",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 } 
