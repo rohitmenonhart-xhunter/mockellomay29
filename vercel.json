@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "framework": false,
+  "framework": null,
   "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
   "outputDirectory": "dist",
   "routes": [
