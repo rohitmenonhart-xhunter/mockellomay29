@@ -10,8 +10,18 @@ npm --version
 echo "Workspace contents:"
 ls -la
 
-echo "Installing dependencies..."
-npm install --no-save vite@5.4.1 @vitejs/plugin-react-swc@3.5.0
+echo "Using simplified package.json for build..."
+if [ -f "package-override.json" ]; then
+  cp package-override.json package.json
+fi
+
+echo "Ensuring index.html exists..."
+if [ ! -f "index.html" ] && [ -f "index.html.backup" ]; then
+  cp index.html.backup index.html
+fi
+
+echo "Installing minimal dependencies..."
+npm install --no-save
 
 echo "Creating minimal vite.config.js..."
 cat > vite.config.js << 'EOF'
