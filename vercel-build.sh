@@ -1,12 +1,29 @@
 #!/bin/bash
-echo "Installing dependencies..."
-npm install --legacy-peer-deps
+set -e  # Exit immediately if a command exits with a non-zero status
 
-echo "Checking Vite installation..."
-if ! [ -x "$(command -v ./node_modules/.bin/vite)" ]; then
-  echo "Vite not found in node_modules, installing specific version..."
-  npm install vite@5.4.1 --no-save
-fi
+echo "Node version:"
+node --version
 
-echo "Running build..."
-./node_modules/.bin/vite build 
+echo "NPM version:"
+npm --version
+
+echo "Installing dependencies with force flag..."
+npm install --force
+
+echo "Checking for Vite..."
+if [ ! -f "./node_modules/.bin/vite" ]; then
+  echo "Vite binary not found, installing globally..."
+  npm install -g vite
+  
+  echo "Creating directory structure if needed..."
+  mkdir -p ./node_modules/.bin
+  
+  echo "Checking global vite installation..."
+  which vite
+  
+  echo "Running build with global Vite..."
+  vite build
+else
+  echo "Running build with local Vite..."
+  ./node_modules/.bin/vite build
+fi 
